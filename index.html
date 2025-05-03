@@ -471,41 +471,33 @@
             }
         }
         
-        // Countdown to a specific date (you can change this to your desired date)
         function updateCountdown() {
             const now = new Date();
             
-            // Set target date to next Friday at 6:00 PM (you can change this)
-            const targetDate = new Date();
-            targetDate.setDate(now.getDate() + 14); // 5 days from now
-            targetDate.setHours(18, 0, 0, 0); // 6:00 PM
-            
-            // If the target date has already passed today, set it to next week
-            if (now > targetDate) {
-                targetDate.setDate(targetDate.getDate() + 7);
-            }
+            // Fecha objetivo: 15 de mayo de 2025 a las 00:00:00
+            const targetDate = new Date('May 15, 2025 00:00:00');
             
             const diff = targetDate - now;
             
-            // Calculate time remaining
+            // Calcular tiempo restante
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            // Update the display with animation
-            updateWithAnimation('days', days.toString().padStart(2, '0'));
-            updateWithAnimation('hours', hours.toString().padStart(2, '0'));
-            updateWithAnimation('minutes', minutes.toString().padStart(2, '0'));
-            updateWithAnimation('seconds', seconds.toString().padStart(2, '0'));
+            // Actualizar la pantalla
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
             
-            // If countdown is finished
+            // Si el contador llega a cero
             if (diff <= 0) {
-                document.querySelector('.countdown-title').textContent = "¡Es hora de vernos!";
+                document.querySelector('.countdown-title').textContent = "¡Llegó el 15 de mayo de 2025!";
                 document.querySelector('.countdown-container').innerHTML = `
                     <div class="text-center py-4">
-                        <i class="fas fa-heart text-pink-500 text-5xl mb-4"></i>
-                        <p class="text-xl text-pink-600">¡Finalmente podemos estar juntos!</p>
+                        <i class="fas fa-calendar-check text-blue-500 text-5xl mb-4"></i>
+                        <p class="text-xl text-blue-600">¡El día especial ha llegado!</p>
                     </div>
                 `;
                 clearInterval(countdownInterval);
