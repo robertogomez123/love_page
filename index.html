@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Margarita, con amor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff5f5;
+            overflow-x: hidden;
+        }
+        
+        .dancing-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .heart-beat {
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .photo-frame {
+            border: 15px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: rotate(-5deg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .message-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,245,245,0.9) 100%);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .petal {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: -1;
+            animation: falling linear infinite;
+        }
+        
+        @keyframes falling {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .love-card, .memory-photo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            opacity: 0;
+            width: 400px;
+            max-width: 90%;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .love-card.active, .memory-photo.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .love-card h3, .memory-photo h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: #ec4899;
+            margin-bottom: 15px;
+        }
+        
+        .love-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .love-card .close-btn, .memory-photo .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .memory-photo img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .memory-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .memory-card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .memory-card-image {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            height: 180px;
+        }
+        
+        /* Estilo uniforme para todas las tarjetas de memoria */
+        .memory-card {
+            height: 300px;
+            transition: transform 0.3s ease;
+        }
+        
+        .memory-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .memory-card-image {
+            height: 180px;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+        
+        .memory-card-text {
+            padding: 16px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <!-- Petals background -->
+    <div id="petals-container"></div>
+    
+    <!-- Overlay for modal -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Love cards container -->
+    <div id="love-cards-container"></div>
+    
+    <!-- Memory photos container -->
+    <div id="memory-photos-container"></div>
+    
+    <!-- Main content -->
+    <div class="max-w-4xl w-full mx-auto text-center px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="dancing-font text-5xl md:text-6xl font-bold text-pink-600 mb-2">Para Margarita</h1>
+            <div class="flex items-center justify-center">
+                <div class="heart-beat text-red-500 text-4xl mr-2">♥</div>
+                <p class="text-xl text-gray-700">Con todo mi amor</p>
+                <div class="heart-beat text-red-500 text-4xl ml-2">♥</div>
+            </div>
+        </header>
+        
+        <!-- Photo section -->
+        <div class="mb-12 flex justify-center">
+            <div class="photo-frame w-64 h-64 md:w-80 md:h-80 bg-pink-200 overflow-hidden rounded-lg cursor-pointer" id="heart-card">
+                <!-- Replace with your actual photo -->
+                <div class="w-full h-full bg-gradient-to-br from-pink-300 to-rose-300 flex items-center justify-center">
+                    <i class="fas fa-heart text-white text-6xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message -->
+        <div class="message-box p-6 md:p-8 mb-12 max-w-2xl mx-auto">
+            <h2 class="dancing-font text-4xl text-pink-600 mb-6">Mi querida Margarita...</h2>
+            <div class="text-left text-gray-700 text-lg leading-relaxed space-y-4">
+                <p>Hoy quiero decirte lo especial que eres para mí. Cada día a tu lado es un regalo que atesoro con todo mi corazón.</p>
+                <p>Tu sonrisa ilumina mis días, tu amor llena mi vida de alegría y tu compañía hace que cada momento sea único.</p>
+                <p>Esta pequeña página es solo un reflejo de todo lo que siento por ti, porque las palabras a veces se quedan cortas para expresar lo que mi corazón siente.</p>
+                <p>Te amo más de lo que las palabras pueden decir, más de lo que el tiempo puede medir, más de lo que el universo puede contener.</p>
+            </div>
+            <div class="mt-8">
+                <p class="dancing-font text-3xl text-pink-600">Para siempre tuyo</p>
+            </div>
+        </div>
+        
+        <!-- Memories section -->
+        <div class="mb-12">
+            <h3 class="dancing-font text-3xl text-pink-600 mb-6">Nuestros momentos especiales</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Memory 1 -->
+                <div class="memory-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="memory-card-image bg-gradient-to-r from-purple-300 to-pink-300" data-memory="1">
+                        <i class="fas fa-heart-circle-bolt text-white text-4xl"></i>
+                    </div>
+                    <div class="memory-card-text">
+                        <h4 class="font-semibold text-pink-700">Nuestro primer día</h4>
+                        <p class="text-sm text-gray-600">El comienzo de esta hermosa historia</p>
+                    </div>
+                </div>
+                
+                <!-- Memory 2 -->
+                <div class="memory-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="memory-card-image bg-gradient-to-r from-blue-300 to-teal-300" data-memory="2">
+                        <i class="fas fa-umbrella-beach text-white text-4xl"></i>
+                    </div>
+                    <div class="memory-card-text">
+                        <h4 class="font-semibold text-pink-700">Aventuras juntos</h4>
+                        <p class="text-sm text-gray-600">Todos los lugares que hemos descubierto</p>
+                    </div>
+                </div>
+                
+                <!-- Memory 3 -->
+                <div class="memory-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="memory-card-image bg-gradient-to-r from-yellow-300 to-orange-300" data-memory="3">
+                        <i class="fas fa-heart-circle-plus text-white text-4xl"></i>
+                    </div>
+                    <div class="memory-card-text">
+                        <h4 class="font-semibold text-pink-700">Futuros sueños</h4>
+                        <p class="text-sm text-gray-600">Todo lo que aún vamos a vivir</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Countdown -->
+        <div class="mb-12">
+            <h3 class="dancing-font text-3xl text-pink-600 mb-6">Próxima cita especial</h3>
+            <div class="flex justify-center space-x-2 md:space-x-4">
+                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
+                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="days">00</div>
+                    <div class="text-xs text-gray-500">Días</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
+                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="hours">00</div>
+                    <div class="text-xs text-gray-500">Horas</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
+                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="minutes">00</div>
+                    <div class="text-xs text-gray-500">Minutos</div>
+                </div>
+                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
+                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="seconds">00</div>
+                    <div class="text-xs text-gray-500">Segundos</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating hearts -->
+        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+            <div class="floating text-pink-500 text-4xl">♥</div>
+        </div>
+    </div>
+    
+    <script>
+        // Frases de amor para las tarjetas
+        const lovePhrases = [
+            {
+                title: "Eres mi todo",
+                message: "En un mundo de millones, eres la única que hace latir mi corazón con solo pensar en ti."
+            },
+            {
+                title: "Mi razón",
+                message: "Cada mañana al despertar, lo primero que pienso es en lo afortunado que soy por tenerte en mi vida."
+            },
+            {
+                title: "Amor eterno",
+                message: "Prometo amarte hoy, mañana y siempre, porque contigo he encontrado el verdadero significado del amor."
+            },
+            {
+                title: "Mi luz",
+                message: "Eres la luz que ilumina mis días oscuros, la calma en mis tormentas, mi refugio seguro."
+            },
+            {
+                title: "Te amo",
+                message: "Tres palabras, ocho letras, un significado infinito: Te amo más que ayer, menos que mañana."
+            },
+            {
+                title: "Eres perfecta",
+                message: "No busco la perfección, porque ya la encontré cuando te conocí. Eres exactamente como siempre soñé."
+            },
+            {
+                title: "Mi sueño",
+                message: "Contigo no necesito soñar, porque al tenerte a mi lado vivo el sueño más hermoso."
+            },
+            {
+                title: "Mi paz",
+                message: "En tus brazos encuentro la paz que mi alma necesita, el amor que mi corazón anhela."
+            }
+        ];
+
+        // Fotos para los recuerdos (puedes reemplazar con tus propias imágenes)
+        const memoryPhotos = {
+            1: {
+                title: "Nuestro primer día",
+                description: "El día que todo comenzó, cuando nuestros caminos se cruzaron y supe que eras especial.",
+                image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            },
+            2: {
+                title: "Aventuras juntos",
+                description: "Cada lugar que visitamos juntos se convierte en un recuerdo inolvidable lleno de amor.",
+                image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            },
+            3: {
+                title: "Futuros sueños",
+                description: "Todas las cosas maravillosas que aún vamos a vivir juntos, porque nuestro amor es eterno.",
+                image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            }
+        };
+
+        // Create falling petals
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            const petalCount = 15;
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                // Random petal style (you could use actual petal images here)
+                const size = Math.random() * 20 + 10;
+                const pinkShade = Math.floor(Math.random() * 100) + 150;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.backgroundColor = `rgb(255, ${pinkShade}, ${pinkShade})`;
+                petal.style.borderRadius = `${Math.random() * 50}% ${Math.random() * 50}%`;
+                
+                // Random position and animation
+                petal.style.left = `${Math.random() * 100}vw`;
+                petal.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(petal);
+            }
+        }
+        
+        // Countdown to next special date (14 days from now)
+        function updateCountdown() {
+            const now = new Date();
+            // Set target date to 14 days from now
+            const targetDate = new Date();
+            targetDate.setDate(now.getDate() + 14);
+            
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Show love card with random phrase
+        function showLoveCard() {
+            const overlay = document.getElementById('overlay');
+            const container = document.getElementById('love-cards-container');
+            
+            // Clear previous cards
+            container.innerHTML = '';
+            
+            // Create new card
+            const card = document.createElement('div');
+            card.className = 'love-card';
+            
+            // Get random phrase
+            const randomPhrase = lovePhrases[Math.floor(Math.random() * lovePhrases.length)];
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-btn';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', () => {
+                card.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Add card content
+            card.innerHTML = `
+                <h3>${randomPhrase.title}</h3>
+                <p>${randomPhrase.message}</p>
+            `;
+            card.appendChild(closeBtn);
+            
+            // Add to container
+            container.appendChild(card);
+            
+            // Show overlay and card
+            overlay.classList.add('active');
+            setTimeout(() => {
+                card.classList.add('active');
+            }, 10);
+            
+            // Close when clicking outside
+            overlay.addEventListener('click', () => {
+                card.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
+        
+        // Show memory photo
+        function showMemoryPhoto(memoryId) {
+            const overlay = document.getElementById('overlay');
+            const container = document.getElementById('memory-photos-container');
+            const memory = memoryPhotos[memoryId];
+            
+            if (!memory) return;
+            
+            // Clear previous photos
+            container.innerHTML = '';
+            
+            // Create new photo card
+            const photoCard = document.createElement('div');
+            photoCard.className = 'memory-photo';
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-btn';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', () => {
+                photoCard.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Add photo content
+            photoCard.innerHTML = `
+                <h3>${memory.title}</h3>
+                <img src="${memory.image}" alt="${memory.title}">
+                <p>${memory.description}</p>
+            `;
+            photoCard.appendChild(closeBtn);
+            
+            // Add to container
+            container.appendChild(photoCard);
+            
+            // Show overlay and photo
+            overlay.classList.add('active');
+            setTimeout(() => {
+                photoCard.classList.add('active');
+            }, 10);
+            
+            // Close when clicking outside
+            overlay.addEventListener('click', () => {
+                photoCard.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createPetals();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Add click effect to heart card
+            document.getElementById('heart-card').addEventListener('click', showLoveCard);
+            
+            // Add click effect to memory cards (ahora funciona en toda la tarjeta)
+            document.querySelectorAll('.memory-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Verificar si el click fue en la imagen o en el texto
+                    const imageElement = card.querySelector('.memory-card-image');
+                    const memoryId = imageElement.getAttribute('data-memory');
+                    showMemoryPhoto(memoryId);
+                });
+            });
+            
+            // Add click effect to body
+            document.body.addEventListener('click', (e) => {
+                // Don't create hearts when clicking on the heart card or memory cards
+                if (e.target.closest('#heart-card') || e.target.closest('.memory-card')) return;
+                
+                const heart = document.createElement('div');
+                heart.className = 'absolute text-pink-500 text-xl animate-ping';
+                heart.style.left = `${e.clientX}px`;
+                heart.style.top = `${e.clientY}px`;
+                heart.textContent = '♥';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
