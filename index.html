@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Margarita, con amor</title>
+    <title>❤️ Para Margarita</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -203,6 +203,68 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
+        /* Nuevos estilos para la imagen de la tarjeta del medio */
+        .romantic-image {
+            background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Estilos para el contador de reencuentro */
+        .countdown-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ec4899;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .countdown-box {
+            background: linear-gradient(135deg, #f9a8d4 0%, #f472b6 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .countdown-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(244, 114, 182, 0.4);
+        }
+        
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Animación cuando el tiempo se actualiza */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .updating {
+            animation: pulse 0.5s;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
@@ -222,10 +284,12 @@
     <div class="max-w-4xl w-full mx-auto text-center px-4 py-8">
         <!-- Header -->
         <header class="mb-8">
-            <h1 class="dancing-font text-5xl md:text-6xl font-bold text-pink-600 mb-2">Para Margarita</h1>
+            <h1 class="dancing-font text-5xl md:text-6xl font-bold text-pink-600 mb-2">
+                <i class="fas fa-heart text-red-500 mr-2"></i> Para Margarita
+            </h1>
             <div class="flex items-center justify-center">
                 <div class="heart-beat text-red-500 text-4xl mr-2">♥</div>
-                <p class="text-xl text-gray-700">Con todo mi amor</p>
+                <p class="text-xl text-gray-700">Para alegrarte el día</p>
                 <div class="heart-beat text-red-500 text-4xl ml-2">♥</div>
             </div>
         </header>
@@ -247,10 +311,10 @@
                 <p>Hoy quiero decirte lo especial que eres para mí. Cada día a tu lado es un regalo que atesoro con todo mi corazón.</p>
                 <p>Tu sonrisa ilumina mis días, tu amor llena mi vida de alegría y tu compañía hace que cada momento sea único.</p>
                 <p>Esta pequeña página es solo un reflejo de todo lo que siento por ti, porque las palabras a veces se quedan cortas para expresar lo que mi corazón siente.</p>
-                <p>Te amo más de lo que las palabras pueden decir, más de lo que el tiempo puede medir, más de lo que el universo puede contener.</p>
+                <p>Te quiero más de lo que las palabras pueden decir, más de lo que el tiempo puede medir, más de lo que el universo puede contener.</p>
             </div>
             <div class="mt-8">
-                <p class="dancing-font text-3xl text-pink-600">Para siempre tuyo</p>
+                <p class="dancing-font text-3xl text-pink-600">Eres la mía</p>
             </div>
         </div>
         
@@ -265,7 +329,7 @@
                     </div>
                     <div class="memory-card-text">
                         <h4 class="font-semibold text-pink-700">Nuestro primer día</h4>
-                        <p class="text-sm text-gray-600">El comienzo de esta hermosa historia</p>
+                        <p class="text-sm text-gray-600">Desde que te conocí me aleje xq sabía que te quería demasiado...</p>
                     </div>
                 </div>
                 
@@ -276,7 +340,7 @@
                     </div>
                     <div class="memory-card-text">
                         <h4 class="font-semibold text-pink-700">Aventuras juntos</h4>
-                        <p class="text-sm text-gray-600">Todos los lugares que hemos descubierto</p>
+                        <p class="text-sm text-gray-600">Todos los lugares que te he acompañado ha sido lo máximo...</p>
                     </div>
                 </div>
                 
@@ -287,33 +351,36 @@
                     </div>
                     <div class="memory-card-text">
                         <h4 class="font-semibold text-pink-700">Futuros sueños</h4>
-                        <p class="text-sm text-gray-600">Todo lo que aún vamos a vivir</p>
+                        <p class="text-sm text-gray-600">Espero que si la vida nos separa no te olvides de mi...</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Countdown -->
+        <!-- Countdown section - Updated with new style -->
         <div class="mb-12">
-            <h3 class="dancing-font text-3xl text-pink-600 mb-6">Próxima cita especial</h3>
-            <div class="flex justify-center space-x-2 md:space-x-4">
-                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
-                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="days">00</div>
-                    <div class="text-xs text-gray-500">Días</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
-                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="hours">00</div>
-                    <div class="text-xs text-gray-500">Horas</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
-                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="minutes">00</div>
-                    <div class="text-xs text-gray-500">Minutos</div>
-                </div>
-                <div class="bg-white rounded-lg p-3 shadow-md w-16 md:w-20">
-                    <div class="text-2xl md:text-3xl font-bold text-pink-600" id="seconds">00</div>
-                    <div class="text-xs text-gray-500">Segundos</div>
+            <h3 class="countdown-title">Tiempo para regresar de las vacaciones</h3>
+            <div class="countdown-container">
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="countdown-box text-center p-2">
+                        <div class="countdown-value" id="days">00</div>
+                        <div class="countdown-label">Días</div>
+                    </div>
+                    <div class="countdown-box text-center p-2">
+                        <div class="countdown-value" id="hours">00</div>
+                        <div class="countdown-label">Horas</div>
+                    </div>
+                    <div class="countdown-box text-center p-2">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutos</div>
+                    </div>
+                    <div class="countdown-box text-center p-2">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Segundos</div>
+                    </div>
                 </div>
             </div>
+            <p class="mt-4 text-pink-600">Pronto estaremos juntos de nuevo</p>
         </div>
         
         <!-- Floating hearts -->
@@ -324,38 +391,38 @@
     
     <script>
         // Frases de amor para las tarjetas
-        const lovePhrases = [
+        const lovePhrases =[
             {
-                title: "Eres mi todo",
-                message: "En un mundo de millones, eres la única que hace latir mi corazón con solo pensar en ti."
+                "title": "Eres increíble",
+                "message": "En un mundo de millones, tener una amiga como tú es un regalo que valoro cada día."
             },
             {
-                title: "Mi razón",
-                message: "Cada mañana al despertar, lo primero que pienso es en lo afortunado que soy por tenerte en mi vida."
+                "title": "Mi apoyo",
+                "message": "Saber que estás ahí, en las buenas y en las malas, hace que la vida sea mucho más ligera."
             },
             {
-                title: "Amor eterno",
-                message: "Prometo amarte hoy, mañana y siempre, porque contigo he encontrado el verdadero significado del amor."
+                "title": "Amistad eterna",
+                "message": "Prometo ser tu amigo hoy, mañana y siempre, porque contigo he encontrado una conexión única."
             },
             {
-                title: "Mi luz",
-                message: "Eres la luz que ilumina mis días oscuros, la calma en mis tormentas, mi refugio seguro."
+                "title": "Mi alegría",
+                "message": "Eres la risa que ilumina mis días grises, la voz que me anima cuando más lo necesito."
             },
             {
-                title: "Te amo",
-                message: "Tres palabras, ocho letras, un significado infinito: Te amo más que ayer, menos que mañana."
+                "title": "Te aprecio",
+                "message": "Tres palabras, ocho letras, pero un significado profundo: Valoro nuestra amistad más de lo que puedo expresar."
             },
             {
-                title: "Eres perfecta",
-                message: "No busco la perfección, porque ya la encontré cuando te conocí. Eres exactamente como siempre soñé."
+                "title": "Eres única",
+                "message": "No hay nadie como tú. Tu forma de ser, tu lealtad y tu humor hacen que nuestra amistad sea especial."
             },
             {
-                title: "Mi sueño",
-                message: "Contigo no necesito soñar, porque al tenerte a mi lado vivo el sueño más hermoso."
+                "title": "Mi compañera",
+                "message": "Contigo no necesito grandes aventuras, porque hasta lo más simple se vuelve memorable."
             },
             {
-                title: "Mi paz",
-                message: "En tus brazos encuentro la paz que mi alma necesita, el amor que mi corazón anhela."
+                "title": "Mi confidente",
+                "message": "En tu amistad encuentro el espacio seguro para ser yo mismo, sin juicios ni máscaras."
             }
         ];
 
@@ -368,12 +435,12 @@
             },
             2: {
                 title: "Aventuras juntos",
-                description: "Cada lugar que visitamos juntos se convierte en un recuerdo inolvidable lleno de amor.",
+                description: "Cada lugar que visitamos juntos se convierte en un recuerdo inolvidable lleno de recuerdos bonitos.",
                 image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
             },
             3: {
                 title: "Futuros sueños",
-                description: "Todas las cosas maravillosas que aún vamos a vivir juntos, porque nuestro amor es eterno.",
+                description: "Ojala nuestra amistad dure para siempre.",
                 image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
             }
         };
@@ -404,24 +471,57 @@
             }
         }
         
-        // Countdown to next special date (14 days from now)
+        // Countdown to a specific date (you can change this to your desired date)
         function updateCountdown() {
             const now = new Date();
-            // Set target date to 14 days from now
+            
+            // Set target date to next Friday at 6:00 PM (you can change this)
             const targetDate = new Date();
-            targetDate.setDate(now.getDate() + 14);
+            targetDate.setDate(now.getDate() + 14); // 5 days from now
+            targetDate.setHours(18, 0, 0, 0); // 6:00 PM
+            
+            // If the target date has already passed today, set it to next week
+            if (now > targetDate) {
+                targetDate.setDate(targetDate.getDate() + 7);
+            }
             
             const diff = targetDate - now;
             
+            // Calculate time remaining
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            // Update the display with animation
+            updateWithAnimation('days', days.toString().padStart(2, '0'));
+            updateWithAnimation('hours', hours.toString().padStart(2, '0'));
+            updateWithAnimation('minutes', minutes.toString().padStart(2, '0'));
+            updateWithAnimation('seconds', seconds.toString().padStart(2, '0'));
+            
+            // If countdown is finished
+            if (diff <= 0) {
+                document.querySelector('.countdown-title').textContent = "¡Es hora de vernos!";
+                document.querySelector('.countdown-container').innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-heart text-pink-500 text-5xl mb-4"></i>
+                        <p class="text-xl text-pink-600">¡Finalmente podemos estar juntos!</p>
+                    </div>
+                `;
+                clearInterval(countdownInterval);
+            }
+        }
+        
+        // Helper function to update with animation
+        function updateWithAnimation(id, value) {
+            const element = document.getElementById(id);
+            if (element.textContent !== value) {
+                element.classList.add('updating');
+                setTimeout(() => {
+                    element.textContent = value;
+                    element.classList.remove('updating');
+                }, 250);
+            }
         }
         
         // Show love card with random phrase
@@ -523,7 +623,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             createPetals();
             updateCountdown();
-            setInterval(updateCountdown, 1000);
+            const countdownInterval = setInterval(updateCountdown, 1000);
             
             // Add click effect to heart card
             document.getElementById('heart-card').addEventListener('click', showLoveCard);
